@@ -1,0 +1,10 @@
+* Readme
+
+Starting it in REPL leads to errors
+
+#+begin_example
+(push "~/Programming/Lisp/gtk4-cffi/getting_started/" asdf:*central-registry*)
+(ql:quickload :getting-started)
+(in-package #:getting-started)
+(main)
+#+end_example
