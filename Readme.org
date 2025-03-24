@@ -1,0 +1,10 @@
+* Readme
+
+I am trying to write a Lisp CFFI conversion of:
+
+https://docs.gtk.org/gtk4/getting_started.html#basics
+
+** CFFI Manual
+https://cffi.common-lisp.dev/manual/index.html
+
+is not very helpful
