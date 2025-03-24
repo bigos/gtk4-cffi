@@ -19,9 +19,9 @@
 (cffi:define-foreign-library libglib    (:unix "libglib-2.0.so"))
 (cffi:define-foreign-library libcairo   (:unix "libcairo.so.2"))
 
-;; (cffi:use-foreign-library libgtk)
-;; (cffi:use-foreign-library libgio)
-;; (cffi:use-foreign-library libgobject)
+(cffi:use-foreign-library libgtk)
+(cffi:use-foreign-library libgio)
+(cffi:use-foreign-library libgobject)
 
 (cffi:defcfun ("gtk_application_new" :library libgtk)
   :pointer
