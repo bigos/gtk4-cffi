@@ -24,7 +24,7 @@
 (use-foreign-library libgio)
 (use-foreign-library libgobject)
 
-(defcfun ("gtk_application_new"          :library 'libgtk4)
+(defcfun ("gtk_application_new"          :library libgtk4)
     :pointer
   (application_id :string)
   (flags :int))

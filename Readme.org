@@ -26,3 +26,6 @@ file:~/quicklisp/dists/quicklisp/software/cl-opengl-20191130-git/gl/library-gles
 (in-package #:getting-started)
 (main)
 #+end_example
+
+** possible locations of libraries
+file:/usr/lib/x86_64-linux-gnu
