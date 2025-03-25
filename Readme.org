@@ -5,6 +5,16 @@ I am trying to write a Lisp CFFI conversion of:
 https://docs.gtk.org/gtk4/getting_started.html#basics
 
 ** CFFI Manual
+
 https://cffi.common-lisp.dev/manual/index.html
 
 is not very helpful
+
+** running it
+
+#+begin_example
+(push "~/Programming/Lisp/gtk4-cffi/getting_started/" asdf:*central-registry*)
+(ql:quickload :getting-started)
+(in-package #:getting-started)
+(main)
+#+end_example
