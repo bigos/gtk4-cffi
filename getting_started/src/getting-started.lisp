@@ -55,7 +55,7 @@
   (window :pointer))
 
 (defcallback activate :void ((app :pointer) (user_data :pointer))
-  (let ((win (foreign-funcall ("gtk_application_window_new" :library libgtk) :pointer app :pointer)))
+  (let ((win (foreign-funcall "gtk_application_window_new" :pointer app :pointer)))
     ;;
     (foreign-funcall "gtk_window_present" :pointer win :void)))
 
