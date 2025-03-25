@@ -12,18 +12,19 @@
 
 (in-package #:getting-started) ;; ==============================================
 
-(define-foreign-library libgtk     (:unix "libgtk-4.so") (T (:default "libgtk")) )
-(define-foreign-library libgdk     (:unix "libgdk-3.so"))
-(define-foreign-library libgio     (:unix "libgio-2.0.so"))
-(define-foreign-library libgobject (:unix "libgobject-2.0.so"))
-(define-foreign-library libglib    (:unix "libglib-2.0.so"))
-(define-foreign-library libcairo   (:unix "libcairo.so.2"))
+(define-foreign-library libgtk    (:unix (:or "libgtk-4.so"
+                                              "libgtk-4.so.1")))
+(define-foreign-library libgdk     (:unix (:or "libgdk-3.so")))
+(define-foreign-library libgio     (:unix (:or "libgio-2.0.so")))
+(define-foreign-library libgobject (:unix (:or "libgobject-2.0.so")))
+(define-foreign-library libglib    (:unix (:or "libglib-2.0.so")))
+(define-foreign-library libcairo   (:unix (:or "libcairo.so.2")))
 
 (use-foreign-library libgtk)
 (use-foreign-library libgio)
 (use-foreign-library libgobject)
 
-(defcfun "gtk_application_new"          ;:library 'libgtk
+(defcfun ("gtk_application_new"          :library 'libgtk4)
     :pointer
   (application_id :string)
   (flags :int))
