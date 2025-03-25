@@ -3,7 +3,7 @@
 (in-package #:common-lisp)
 
 (defpackage #:getting-started
-  (:use #:cl)
+  (:use #:cl :cffi)
   ;; (:import-from :serapeum
   ;;  :~> :@)
   ;; (:import-from :defclass-std
@@ -12,33 +12,33 @@
 
 (in-package #:getting-started) ;; ==============================================
 
-(cffi:define-foreign-library libgtk     (:unix "libgtk-4.so"))
-(cffi:define-foreign-library libgdk     (:unix "libgdk-3.so"))
-(cffi:define-foreign-library libgio     (:unix "libgio-2.0.so"))
-(cffi:define-foreign-library libgobject (:unix "libgobject-2.0.so"))
-(cffi:define-foreign-library libglib    (:unix "libglib-2.0.so"))
-(cffi:define-foreign-library libcairo   (:unix "libcairo.so.2"))
+(define-foreign-library libgtk     (:unix "libgtk-4.so") (T (:default "libgtk")) )
+(define-foreign-library libgdk     (:unix "libgdk-3.so"))
+(define-foreign-library libgio     (:unix "libgio-2.0.so"))
+(define-foreign-library libgobject (:unix "libgobject-2.0.so"))
+(define-foreign-library libglib    (:unix "libglib-2.0.so"))
+(define-foreign-library libcairo   (:unix "libcairo.so.2"))
 
-;; (cffi:use-foreign-library libgtk)
-;; (cffi:use-foreign-library libgio)
-;; (cffi:use-foreign-library libgobject)
+(use-foreign-library libgtk)
+(use-foreign-library libgio)
+(use-foreign-library libgobject)
 
-(cffi:defcfun ("gtk_application_new" :library libgtk)
-  :pointer
+(defcfun "gtk_application_new"          ;:library 'libgtk
+    :pointer
   (application_id :string)
   (flags :int))
 
-(cffi:defcfun ("g_application_run" :library libgio)
-  :int
+(defcfun "g_application_run"            ;:library libgio
+    :int
   (application :pointer)
   (argc :int)
   (argv :string))
 
-(cffi:defcfun ("g_object_unref" :library libgobject)
-  :void
+(defcfun "g_object_unref"               ;:library libgobject
+    :void
   (object :pointer))
 
-(cffi:defcfun ("g_signal_connect_data" :library libgobject)
+(defcfun "g_signal_connect_data"        ;:library libgobject
     :void
   (instance :pointer)
   (detailed_signal :string)
@@ -47,25 +47,25 @@
   (destroy_data :pointer)
   (connect_flags :pointer))
 
-(cffi:defcfun ("gtk_application_window_new" :library libgtk)
+(defcfun "gtk_application_window_new"   ;:library libgtk
     :pointer)
 
-(cffi:defcfun ("gtk_window_present" :library libgtk)
-  :void
+(defcfun "gtk_window_present"           ;:library libgtk
+    :void
   (window :pointer))
 
-(cffi:defcallback activate :void ((app :pointer) (user_data :pointer))
-  (let ((win (cffi:foreign-funcall ("gtk_application_window_new" :library libgtk) :pointer app :pointer)))
+(defcallback activate :void ((app :pointer) (user_data :pointer))
+  (let ((win (foreign-funcall ("gtk_application_window_new" :library libgtk) :pointer app :pointer)))
     ;;
-    (cffi:foreign-funcall ("gtk_window_present" :library libgtk) :pointer win :void)))
+    (foreign-funcall "gtk_window_present" :pointer win :void)))
 
 (defun main ()
-  (let ((app (cffi:foreign-funcall ("gtk_application_new" :library libgtk) :string "org.gtk.example" :int 0 :pointer))
+  (let ((app (foreign-funcall "gtk_application_new" :string "org.gtk.example" :int 0 :pointer))
         (status 0))
-    (cffi:foreign-funcall ("g_signal_connect_data" :library libgobject)
-                          :pointer app :string "activate" :pointer (cffi:callback activate)  :pointer (cffi:null-pointer) :void)
-    (setf status (cffi:foreign-funcall ("g_application_run" :library libgio)
-                                       :pointer app :int 0 :string (cffi:null-pointer) :int))
-    (cffi:foreign-funcall ("g_object_unref" :library libgobject) :pointer app :void)
+    (foreign-funcall "g_signal_connect_data"
+                     :pointer app :string "activate" :pointer (cffi:callback activate)  :pointer (cffi:null-pointer) :void)
+    (setf status (foreign-funcall "g_application_run"
+                                  :pointer app :int 0 :string (null-pointer) :int))
+    (foreign-funcall "g_object_unref" :pointer app :void)
 
     status))
