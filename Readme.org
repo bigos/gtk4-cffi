@@ -10,6 +10,14 @@ https://cffi.common-lisp.dev/manual/index.html
 
 is not very helpful
 
+*** examples of use
+
+**** specifying library
+file:~/quicklisp/dists/quicklisp/software/cl-opengl-20191130-git/gl/bindings.lisp::95
+
+using library with diagnostics
+file:~/quicklisp/dists/quicklisp/software/cl-opengl-20191130-git/gl/library-glesv2.lisp::24
+
 ** running it
 
 #+begin_example
