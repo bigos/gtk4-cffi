@@ -1,0 +1,6 @@
+* Notes
+
+** similar projects
+file:~/Programming/OCaml/gtk_minimal/bin/main.ml
+
+file:~/Programming/Lisp/lispy-experiments/window-canvas-gaboreaning/src/gaboreaning.lisp
