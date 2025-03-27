@@ -41,13 +41,13 @@
   (object :pointer))
 
 (defcfun "g_signal_connect_data"
-    :void
+    :ulong
   (instance :pointer)
   (detailed_signal :string)
   (c_handler :pointer)
   (data :pointer)
   (destroy_data :pointer)
-  (connect_flags :pointer))
+  (connect_flags :int))
 
 (defcfun "gtk_application_window_new"
     :pointer)
@@ -65,9 +65,23 @@
   (let ((app (foreign-funcall "gtk_application_new" :string "org.gtk.example" :int 0 :pointer))
         (status 0))
     (foreign-funcall "g_signal_connect_data"
-                     :pointer app :string "activate" :pointer (cffi:callback activate)  :pointer (cffi:null-pointer) :void)
-    (setf status (foreign-funcall "g_application_run"
-                                  :pointer app :int 0 :string (null-pointer) :int))
-    (foreign-funcall "g_object_unref"  :pointer app :void)
+                     :pointer app
+                     :string "activate"
+                     :pointer (cffi:callback activate)
+                     :pointer (cffi:null-pointer)
+                     :pointer (cffi:null-pointer)
+                     :ulong   0
+                     :void)
+
+    (sb-int:with-float-traps-masked (:divide-by-zero)
+      (setf status (foreign-funcall "g_application_run"
+                                    :pointer app
+                                    :int 0
+                                    :string (cffi:null-pointer)
+                                    :int)))
+
+    (foreign-funcall "g_object_unref"
+                     :pointer app
+                     :void)
 
     status))
