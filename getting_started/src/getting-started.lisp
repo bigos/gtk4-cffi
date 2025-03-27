@@ -1,5 +1,8 @@
 (declaim (optimize (speed 0) (safety 3) (debug 3)))
 
+;;; an example of using Gtk4 taken from:
+;;; https://docs.gtk.org/gtk4/getting_started.html
+
 (in-package #:common-lisp)
 
 (defpackage #:getting-started
@@ -50,7 +53,19 @@
   (connect_flags :int))
 
 (defcfun "gtk_application_window_new"
-    :pointer)
+    :pointer
+  (application :pointer))
+
+(defcfun "gtk_set_title"
+    :void
+  (window :pointer)
+  (title :string))
+
+(defcfun "gtk_window_set_default_size"
+    :void
+  (window :pointer)
+  (width :int)
+  (height :int))
 
 (defcfun "gtk_window_present"
     :void
@@ -58,7 +73,8 @@
 
 (defcallback activate :void ((app :pointer) (user_data :pointer))
   (let ((win (foreign-funcall "gtk_application_window_new" :pointer app :pointer)))
-    ;;
+    (foreign-funcall "gtk_window_set_title" :pointer win :string "Window" :void)
+    (foreign-funcall "gtk_window_set_default_size" :pointer win :int 200 :int 200 :void)
     (foreign-funcall "gtk_window_present" :pointer win :void)))
 
 (defun main ()
