@@ -21,4 +21,6 @@
                          "com.example.helloworld"
                          (gir:nget *gio* "ApplicationFlags" :default-flags))))
     (gir:connect app :activate #'activate)
-    (gir:invoke (app 'run) nil)))
+
+    (sb-int:with-float-traps-masked (:divide-by-zero)
+      (gir:invoke (app 'run) nil))))
