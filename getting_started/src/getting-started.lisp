@@ -15,11 +15,9 @@
 
 (in-package #:getting-started) ;; ==============================================
 
-(define-foreign-library libgtk    (:unix (:or "libgtk-4.so"
-                                              "libgtk-4.so.1")))
+(define-foreign-library libgtk     (:unix (:or "libgtk-4.so")))
 (define-foreign-library libgdk     (:unix (:or "libgdk-3.so")))
-(define-foreign-library libgio     (:unix (:or "libgio-2.0.so"
-                                               "libgio-2.0.so.0")))
+(define-foreign-library libgio     (:unix (:or "libgio-2.0.so")))
 (define-foreign-library libgobject (:unix (:or "libgobject-2.0.so")))
 (define-foreign-library libglib    (:unix (:or "libglib-2.0.so")))
 (define-foreign-library libcairo   (:unix (:or "libcairo.so.2")))
